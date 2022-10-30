@@ -22,13 +22,16 @@ public class PlatformSpawner : MonoBehaviour
     {
         foreach (var platform in _platformQueue)
         {
-            Destroy(platform);
+            Destroy(platform.gameObject);
         }
 
+        _platformQueue = new Queue<GameObject>();
+        _lastPlatform = _start;
         _seed = Random.Range(0, 10000f);
+        Generate(_poolSize / 3);
     }
 
-    public void Generate(int count)
+    private void Generate(int count)
     {
         if (_platformTemplates.Count < 1)
         {
@@ -40,7 +43,7 @@ public class PlatformSpawner : MonoBehaviour
         {
             if (IsFullQueue())
             {
-                GameObject platform = _platformQueue.Dequeue();
+                var platform = _platformQueue.Dequeue();
                 platform.transform.position = _lastPlatform.transform.position +
                                               Vector3.up * Random.Range(_minRangeBetweenPlatform,
                                                   _maxRangeBetweenPlatform); // TODO Add perlin noise
@@ -49,7 +52,7 @@ public class PlatformSpawner : MonoBehaviour
             }
             else
             {
-                GameObject platform = Instantiate(_platformTemplates[Random.Range(0, _platformTemplates.Count)],
+                var platform = Instantiate(_platformTemplates[Random.Range(0, _platformTemplates.Count)],
                     transform);
                 platform.transform.position = _lastPlatform.transform.position +
                                               Vector3.up * Random.Range(_minRangeBetweenPlatform,
@@ -63,14 +66,14 @@ public class PlatformSpawner : MonoBehaviour
         }
     }
 
-    private bool IsFullQueue() => _platformQueue?.Count >= _poolSize;
+    private bool IsFullQueue() => _platformQueue.Count >= _poolSize;
 
     private float GetRandomAngle(float angle)
     {
-        float range = 10f;
-        float noise = Mathf.PerlinNoise(0, _seed + _lastPlatform.transform.position.y * _noiseScale);
+        var range = 10f;
+        var noise = Mathf.PerlinNoise(0, _seed + _lastPlatform.transform.position.y * _noiseScale);
         var isPositiveRotation = Random.Range(0, noise * range) - range / 2 >= 0;
-        float deltaAngle = Mathf.Clamp(noise * _maxAngleRange, _maxAngleRange / 4, _maxAngleRange);
+        var deltaAngle = Mathf.Clamp(noise * _maxAngleRange, _maxAngleRange / 4, _maxAngleRange);
 
         if (isPositiveRotation)
         {
@@ -93,9 +96,7 @@ public class PlatformSpawner : MonoBehaviour
     private void Awake()
     {
         _platformQueue = new Queue<GameObject>();
-        _lastPlatform = _start;
         _character = FindObjectOfType<CharacterMover>();
         Reset();
-        Generate(_poolSize / 3);
     }
 }

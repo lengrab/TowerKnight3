@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public UnityEvent<int> NewHeightScore;
     public UnityEvent<int> UpdateScore;
     public int Score { get; private set; }
-    public int MaxScore { get; private set; }
+    public int HeightScore { get; private set; }
 
     public void SetHeight(float height)
     {
@@ -22,24 +22,23 @@ public class Player : MonoBehaviour
         {
             Score = Convert.ToInt32(height);
         }
-        
+
         UpdateScore?.Invoke(Score);
 
-        if (Score > MaxScore)
-        {
-            MaxScore = Score;
-            NewHeightScore?.Invoke(MaxScore);
-        }
-    }
+        if (Score <= HeightScore) return;
 
-    private void Awake()
-    {
-        Load();
+        HeightScore = Score;
+        NewHeightScore?.Invoke(HeightScore);
     }
 
     public void Reset()
     {
         Score = 0;
+    }
+
+    private void Awake()
+    {
+        Load();
     }
 
     private void OnApplicationQuit()
@@ -51,14 +50,14 @@ public class Player : MonoBehaviour
     {
         Save();
     }
-    
+
     private void Load()
     {
-        ES3.Save(MaxScoreHash, MaxScore);
+        HeightScore = ES3.Load<int>(MaxScoreHash, 0);
     }
 
     private void Save()
     {
-        MaxScore = ES3.Load(MaxScoreHash, 0);
+        ES3.Save(MaxScoreHash, HeightScore);
     }
 }

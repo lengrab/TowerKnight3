@@ -23,9 +23,14 @@ public class CharacterStateController : MonoBehaviour
 
     private IState _state;
 
+    public void SetInGameState()
+    {
+        SetState(new GameState());
+    }
+
     public void SetState(IState state)
     {
-        _state.Destroy();
+        _state?.Destroy();
         _state = state;
         _state.Init(this);
     }
@@ -37,8 +42,7 @@ public class CharacterStateController : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
         Mover = GetComponent<CharacterMover>();
         
-        _state = new GameState();
-        _state.Init(this);
+        SetState(new GameState());
     }
 
     private void FixedUpdate()

@@ -25,15 +25,21 @@ public class CharacterMover : MonoBehaviour
         _rigidbody.isKinematic = false;
     }
 
-    public void Reset()
-    {
-        transform.position = _startPosition;
-        transform.rotation = _startRotation;
-    }
-
     public void Stop()
     {
         _rigidbody.isKinematic = true;
+    }
+
+    public void Restart()
+    {
+        Reset();
+        Play();
+    }
+
+    private void Reset()
+    {
+        transform.position = _startPosition;
+        transform.rotation = _startRotation;
     }
 
     private void Awake()
