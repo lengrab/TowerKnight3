@@ -1,14 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlatformSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _platformTemplates;
     [SerializeField] private int _poolSize = 3;
+    [SerializeField] private int _offsetForGeneration = 3;
+    [SerializeField] private float _noiseScale = 3;
     [SerializeField] private float _minRangeBetweenPlatform = 1;
     [SerializeField] private float _maxRangeBetweenPlatform = 3;
     [SerializeField] private float _maxAngleRange = 90f;
     [SerializeField] private GameObject _start;
+
+    private float _seed;
+    private CharacterMover _character;
     private Queue<GameObject> _platformQueue;
     private GameObject _lastPlatform;
 
@@ -18,6 +24,8 @@ public class PlatformSpawner : MonoBehaviour
         {
             Destroy(platform);
         }
+
+        _seed = Random.Range(0, 10000f);
     }
 
     public void Generate(int count)
@@ -59,8 +67,10 @@ public class PlatformSpawner : MonoBehaviour
 
     private float GetRandomAngle(float angle)
     {
-        var isPositiveRotation = Random.Range(0, 10) > 5;
-        float deltaAngle = Random.Range(_maxAngleRange / 2, _maxAngleRange);
+        float range = 10f;
+        float noise = Mathf.PerlinNoise(0, _seed + _lastPlatform.transform.position.y * _noiseScale);
+        var isPositiveRotation = Random.Range(0, noise * range) - range / 2 >= 0;
+        float deltaAngle = Mathf.Clamp(noise * _maxAngleRange, _maxAngleRange / 4, _maxAngleRange);
 
         if (isPositiveRotation)
         {
@@ -72,10 +82,20 @@ public class PlatformSpawner : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_character.transform.position.y + _offsetForGeneration > _lastPlatform.transform.position.y)
+        {
+            Generate(_poolSize / 3);
+        }
+    }
+
     private void Awake()
     {
         _platformQueue = new Queue<GameObject>();
         _lastPlatform = _start;
-        Generate(3);
+        _character = FindObjectOfType<CharacterMover>();
+        Reset();
+        Generate(_poolSize / 3);
     }
 }
