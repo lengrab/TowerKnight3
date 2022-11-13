@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-    public UnityEvent Jump;
-    public UnityEvent<float> Rotate;
+    [SerializeField] private UnityEvent Jump;
+    [SerializeField] private UnityEvent<float> Rotate;
 
     private Input _input;
     private IEnumerator _valueReader;

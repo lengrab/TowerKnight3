@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class CloundRotator : MonoBehaviour
 {
-    [SerializeField] private float _speed = 2;
+    [SerializeField] private float speed = 2;
 
     private void Update()
     {
-        transform.Rotate(0, _speed, 0);
+        transform.Rotate(0, speed, 0);
     }
 }

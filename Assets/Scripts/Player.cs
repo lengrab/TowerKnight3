@@ -8,8 +8,29 @@ public class Player : MonoBehaviour
 
     public UnityEvent<int> NewHeightScore;
     public UnityEvent<int> UpdateScore;
+   
     public int Score { get; private set; }
     public int HeightScore { get; private set; }
+
+    private void Awake()
+    {
+        Load();
+    }
+
+    public void Reset()
+    {
+        Score = 0;
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        Save();
+    }
 
     public void SetHeight(float height)
     {
@@ -29,26 +50,6 @@ public class Player : MonoBehaviour
 
         HeightScore = Score;
         NewHeightScore?.Invoke(HeightScore);
-    }
-
-    public void Reset()
-    {
-        Score = 0;
-    }
-
-    private void Awake()
-    {
-        Load();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Save();
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        Save();
     }
 
     private void Load()

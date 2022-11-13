@@ -223,13 +223,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153383856}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93d76adbb4ae1774f8651839c4096d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _character: {fileID: 8554709186135204888}
-  _scaleKoefficient: 0.3
+  character: {fileID: 912772401}
+  scaleCoefficient: 5
 --- !u!4 &179721152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 420bde364644a314396dc8ed24ee99d6, type: 3}
@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa95978b0a8b2474ba15c6b9cd445737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSensity: 1
+  _moveSensity: 0.5
 --- !u!4 &416265254 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: c2391e8a6bdf5424194b61e41952a40a, type: 3}
@@ -945,6 +945,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4cd88df8679484ab91e01c26920ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraFollower: {fileID: 963194229}
+  characterStateController: {fileID: 912772408}
+  characterMover: {fileID: 912772405}
+  player: {fileID: 1717869915}
+  environtmentSpawners:
+  - {fileID: 1961234648}
+  - {fileID: 1988398984}
+  towerMover: {fileID: 410598369}
 --- !u!4 &830096342
 Transform:
   m_ObjectHideFlags: 0
@@ -1065,7 +1073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912772400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.803, z: 3}
+  m_LocalPosition: {x: 0, y: 1, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8554709186135204888}
@@ -1135,13 +1143,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7896cb2009b88943878646078cb5bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpHeight: 4
-  _jump:
+  jumpHeight: 3
+  jump:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 912772406}
-        m_TargetAssemblyTypeName: CharacterAnimationController, Assembly-CSharp
-        m_MethodName: Jump
+      - m_Target: {fileID: 1751668019}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1151,9 +1159,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1751668019}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
+      - m_Target: {fileID: 912772406}
+        m_TargetAssemblyTypeName: CharacterAnimationController, Assembly-CSharp
+        m_MethodName: Jump
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1187,24 +1195,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22dd2a29d82f4d3884f7ceef1bba763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loose:
+  loose:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1046367111}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 912772405}
-        m_TargetAssemblyTypeName: CharacterMover, Assembly-CSharp
-        m_MethodName: Stop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1226,8 +1222,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _deathHeight: 5
-  _foot: {fileID: 369323361}
+      - m_Target: {fileID: 912772405}
+        m_TargetAssemblyTypeName: CharacterMover, Assembly-CSharp
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  deathHeight: 5
+  foot: {fileID: 369323361}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79ab548e48fe42cfa4c9d4aa30c4140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterTransform: {fileID: 912772401}
+  characterTransform: {fileID: 912772401}
 --- !u!4 &970557140
 Transform:
   m_ObjectHideFlags: 0
@@ -2270,6 +2278,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1772732506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8073143335053236830, guid: 98e09d2eca36b464ea5be1c50658bd2e, type: 3}
+  m_PrefabInstance: {fileID: 552773710}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1857438284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2df72ec125264584faa40cb1beef0481, type: 3}
@@ -2391,13 +2404,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _platformTemplates:
   - {fileID: 5265059834384503071, guid: 0948e8494d7208e4fb864859ec335617, type: 3}
-  _poolSize: 21
+  _poolSize: 24
   _offsetForGeneration: 8
   _noiseScale: 1.25
-  _minRangeBetweenPlatform: 0.25
+  _minRangeBetweenPlatform: 1
   _maxRangeBetweenPlatform: 1.75
-  _maxAngleRange: 180
-  _start: {fileID: 1517136034}
+  _maxAngleRange: 150
+  _startObject: {fileID: 1517136034}
+  _gameManager: {fileID: 830096341}
 --- !u!4 &1968308085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2df72ec125264584faa40cb1beef0481, type: 3}
@@ -2456,7 +2470,8 @@ MonoBehaviour:
   _minRangeBetweenPlatform: 5
   _maxRangeBetweenPlatform: 5
   _maxAngleRange: 50
-  _start: {fileID: 1988398982}
+  _startObject: {fileID: 1772732506}
+  _gameManager: {fileID: 830096341}
 --- !u!4 &2046595907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 09062dc0008857b46aaacdb7206f1453, type: 3}
@@ -35138,7 +35153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518a9687b3065e04b96c25997afa9dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.02
+  speed: 0.15
 --- !u!1001 &8270199904794715342
 PrefabInstance:
   m_ObjectHideFlags: 0

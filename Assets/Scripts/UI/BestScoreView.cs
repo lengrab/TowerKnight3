@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,11 +17,6 @@ public class BestScoreView : MonoBehaviour
         }
     }
 
-    private void UpdateScore(int score)
-    {
-        _text.text = score.ToString();
-    }
-
     private void OnEnable()
     {
         UpdateScore(_player.HeightScore);
@@ -32,5 +26,10 @@ public class BestScoreView : MonoBehaviour
     private void OnDisable()
     {
         _player.NewHeightScore.RemoveListener(UpdateScore); 
+    }
+
+    private void UpdateScore(int score)
+    {
+        _text.text = score.ToString();
     }
 }

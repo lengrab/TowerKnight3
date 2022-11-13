@@ -5,11 +5,7 @@ public class DeathState : State,IState
         base.Init(controller);
     }
 
-    public override void Update()
-    {
-    }
+    public override void Update() { }
 
-    public override void Destroy()
-    {
-    }
+    public override void Destroy() { }
 }

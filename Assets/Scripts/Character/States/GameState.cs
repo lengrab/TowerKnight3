@@ -11,13 +11,12 @@ public class GameState : State, IState
     public override void Update()
     {
         Controller.Player.SetHeight(Controller.Camera.transform.position.y);
-
         Vector3 distance = Controller.Camera.transform.position - Controller.transform.position;
-        if (distance.y > Controller.DeathHeight)
-        {
-            Controller.Loose?.Invoke();
-            Controller.SetState(new DeathState());
-        }
+
+        if (distance.y < Controller.DeathHeight) return;
+        
+        Controller.Loose?.Invoke();
+        Controller.SetState(new DeathState());
     }
 
     public override void Destroy()
